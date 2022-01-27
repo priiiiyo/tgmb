@@ -16,10 +16,8 @@ def reformatter(fileName: str):
         commented = re.findall("^#", line)
         newline = re.findall("^\n", line)
         if not commented and not newline:
-            formatted = formatted + line
-    if open(fileName, 'r').read() == formatted:
-        pass
-    else:
+            formatted += line
+    if open(fileName, 'r').read() != formatted:
         open(fileName, 'w').write(formatted)
         print(f"Reformatted '{fileName}'")
     return
@@ -108,13 +106,18 @@ def handler():
         os.remove('fileid.env')
     file_bak(fileList[0])
     reformatter(fileList[0])
-    fileid_dat = f'CONFIG_PARENT_ID = "' + CONFIG_PARENT_ID + '"\n'
-    for fileName in fileList[0:6]:
+    fileid_dat = 'CONFIG_PARENT_ID = "' + CONFIG_PARENT_ID + '"\n'
+    for fileName in fileList[:6]:
         fileId = fileUpload(fileName)
         fileid_dat = fileid_dat + fileName.upper().replace('.', '_') + ' = "' + fileId + '"\n'
     open(fileList[6], 'w').write(fileid_dat)
     reformatter(fileList[6])
-    dynamic_dat = f'DL_WAIT_TIME = "' + input('Enter DL_WAIT_TIME (default is 5): ') + '"\n'
+    dynamic_dat = (
+        'DL_WAIT_TIME = "'
+        + input('Enter DL_WAIT_TIME (default is 5): ')
+        + '"\n'
+    )
+
     if UPDATE_CONFIG:
         dynamic_dat = dynamic_dat + fileList[6].upper().replace('.', '_') + ' = "' + filePatch(fileList[6], old_ids[1]) + '"\n'
     if not UPDATE_CONFIG:

@@ -27,12 +27,12 @@ class InlineKeyboardMaker:
 def stage_list(num: int, handler: list):
     if len(handler) == 1:
         all_handler = handler[0]
-        for i in range(num - 1):
+        for _ in range(num - 1):
             handler.append(all_handler)
-    list_out = []
-    for i in range(num):
-        list_out.append(CallbackQueryHandler(handler[i], pattern='^' + str(i + 1) + '$'))
-    return list_out
+    return [
+        CallbackQueryHandler(handler[i], pattern='^' + str(i + 1) + '$')
+        for i in range(num)
+    ]
 
 
 def choose(update: Update, context: CallbackContext) -> None:
@@ -99,8 +99,7 @@ def proceed(update: Update, context: CallbackContext) -> None:
         if env_name[int(temp_index)] == env_name_new[i]:
             env_name_new_already_exists = True
             env_value_new[i] = temp_value
-            pass
-    if env_name_new_already_exists is False:
+    if not env_name_new_already_exists:
         env_name_new.append(env_name[int(temp_index)])
         env_value_new.append(temp_value)
     query = update.callback_query
@@ -120,7 +119,11 @@ def discard_changes(update: Update, context: CallbackContext) -> None:
     query.answer()
     button_list = ['Start Over', 'Exit']
     LOGGER.info(f"Owner '{update.callback_query.from_user.first_name}' Discarded Changes Made to 'config.env'")
-    query.edit_message_text(text=f"Discarded Changes", reply_markup=InlineKeyboardMaker(button_list).build(2))
+    query.edit_message_text(
+        text='Discarded Changes',
+        reply_markup=InlineKeyboardMaker(button_list).build(2),
+    )
+
     return SIXTH
 
 
@@ -140,7 +143,7 @@ def save_changes(update: Update, context: CallbackContext) -> None:
 def end(update: Update, context: CallbackContext) -> None:
     query = update.callback_query
     query.answer()
-    query.edit_message_text(text=f"Exited 'config.env' Editor.")
+    query.edit_message_text(text="Exited 'config.env' Editor.")
     return ConversationHandler.END
 
 

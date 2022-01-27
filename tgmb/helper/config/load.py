@@ -25,7 +25,6 @@ def update_dat(fileName: str, ch_key: str, ch_value: str):
         if env_name[i] == ch_key:
             env_value[i] = ch_value
             exists = True
-            pass
     if not exists:
         env_name.append(ch_key)
         env_value.append(ch_value)
@@ -37,10 +36,7 @@ def update_dat(fileName: str, ch_key: str, ch_value: str):
 
 def load_dict(fileName: str):
     env_name, env_value = load_dat(fileName)
-    env_dict = {}
-    for i in range(len(env_name)):
-        env_dict[env_name[i]] = env_value[i]
-    return env_dict
+    return {env_name[i]: env_value[i] for i in range(len(env_name))}
 
 
 def load_env(fileName: str):

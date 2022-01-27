@@ -51,8 +51,8 @@ def ariaDaemonStart():
 
 
 def netrc():
-    dot_netrc = '/root/.netrc'
     if os.path.exists('netrc'):
+        dot_netrc = '/root/.netrc'
         if os.path.exists(dot_netrc):
             os.remove(dot_netrc)
         LOGGER.debug(subprocess.run(['cp', 'netrc', dot_netrc, '-v'],
@@ -78,6 +78,5 @@ def dl(url: str, fileName):
     while time_lapsed != DL_WAIT_TIME:
         if os.path.exists(fileName):
             break
-        else:
-            time.sleep(0.1)
-            time_lapsed += 0.1
+        time.sleep(0.1)
+        time_lapsed += 0.1

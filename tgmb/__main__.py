@@ -59,12 +59,12 @@ Type /{BotCommands.HelpCommand} to get a list of available commands
 @run_async
 def restart(update: Update, context: CallbackContext):
     restart_msg = sendMessage('Restarting, Please Wait...', context.bot, update)
-    LOGGER.info(f'Restarting the Bot...')
+    LOGGER.info('Restarting the Bot...')
     fs_utils.clean_all()
     killAll()
     if DYNAMIC_CONFIG:
         time.sleep(3)
-        restart_msg.edit_text(f'Syncing to Google Drive...')
+        restart_msg.edit_text('Syncing to Google Drive...')
         sync.handler(configList)
         restart_msg.edit_text(f'Sync Completed!\n{configList}')
     if not DYNAMIC_CONFIG:

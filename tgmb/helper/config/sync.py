@@ -53,8 +53,6 @@ def fileReUpload(service, fileName, fileId, fileMetadata, mediaBody):
 def file(fileName: str, fileId: str, useReformat: bool, usePatch: bool):
     if useReformat:
         reformatter.handler(fileName)
-    else:
-        pass
     service, fileMetadata, mediaBody = buildSync(fileName)
     if usePatch:
         return filePatch(service, fileName, fileId, fileMetadata, mediaBody)

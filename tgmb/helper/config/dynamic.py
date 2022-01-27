@@ -24,7 +24,6 @@ def rm_dl(fileName: str):
     dl(f"https://docs.google.com/uc?export=download&id={fileIdDict[env_name]}", fileName)
     if os.path.exists(fileName):
         LOGGER.info(f"Downloaded '{fileName}'")
-        pass
     else:
         LOGGER.error(f"Config File Missing: '{fileName}' ...\n Exiting...")
         exit(1)
@@ -38,7 +37,7 @@ def handler():
         rm_dl('fileid.env')
         reformatter.handler('fileid.env')
         load_env('fileid.env')
-        for file in configList[0:6]:
+        for file in configList[:6]:
             rm_dl(file)
     if not DYNAMIC_CONFIG:
         LOGGER.info('Using Static Config...')

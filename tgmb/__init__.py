@@ -58,7 +58,7 @@ download_dict = {}
 AUTHORIZED_CHATS = set()
 if os.path.exists('authorized.txt'):
     with open('authorized.txt', 'r+') as f:
-        if not f.read() == '':
+        if f.read() != '':
             lines = f.readlines()
             for line in lines:
                 #    LOGGER.info(line.split())
@@ -67,8 +67,7 @@ try:
     BOT_TOKEN = os.environ['BOT_TOKEN']
     parent_id = os.environ['GDRIVE_FOLDER_ID']
     DOWNLOAD_DIR = os.environ['DOWNLOAD_DIR']
-    if DOWNLOAD_DIR[-1] != '/' or DOWNLOAD_DIR[-1] != '\\':
-        DOWNLOAD_DIR = DOWNLOAD_DIR + '/'
+    DOWNLOAD_DIR = DOWNLOAD_DIR + '/'
     DOWNLOAD_STATUS_UPDATE_INTERVAL = int(os.environ['DOWNLOAD_STATUS_UPDATE_INTERVAL'])
     OWNER_ID = int(os.environ['OWNER_ID'])
     AUTO_DELETE_MESSAGE_DURATION = int(os.environ['AUTO_DELETE_MESSAGE_DURATION'])
@@ -90,7 +89,6 @@ except KeyError:
 try:
     if bool(os.environ['USER_SESSION_STRING']):
         USER_SESSION_STRING = os.environ['USER_SESSION_STRING']
-        pass
 except KeyError:
     LOGGER.info('Generating USER_SESSION_STRING...')
     with Client(':memory:', api_id=int(TELEGRAM_API), api_hash=TELEGRAM_HASH, bot_token=BOT_TOKEN) as app:
@@ -108,8 +106,6 @@ if USE_TELEGRAPH:
 if not USE_TELEGRAPH:
     TELEGRAPH_TOKEN = None
     LOGGER.info("Not Using Telegra.ph...")
-    pass
-
 try:
     INDEX_URL = os.environ['INDEX_URL']
     if len(INDEX_URL) == 0:
@@ -142,27 +138,18 @@ except KeyError:
     BUTTON_FIVE_URL = None
 try:
     STOP_DUPLICATE_MIRROR = os.environ['STOP_DUPLICATE_MIRROR']
-    if STOP_DUPLICATE_MIRROR.lower() == 'true':
-        STOP_DUPLICATE_MIRROR = True
-    else:
-        STOP_DUPLICATE_MIRROR = False
+    STOP_DUPLICATE_MIRROR = STOP_DUPLICATE_MIRROR.lower() == 'true'
 except KeyError:
     STOP_DUPLICATE_MIRROR = False
 try:
     IS_TEAM_DRIVE = os.environ['IS_TEAM_DRIVE']
-    if IS_TEAM_DRIVE.lower() == 'true':
-        IS_TEAM_DRIVE = True
-    else:
-        IS_TEAM_DRIVE = False
+    IS_TEAM_DRIVE = IS_TEAM_DRIVE.lower() == 'true'
 except KeyError:
     IS_TEAM_DRIVE = False
 
 try:
     USE_SERVICE_ACCOUNTS = os.environ['USE_SERVICE_ACCOUNTS']
-    if USE_SERVICE_ACCOUNTS.lower() == 'true':
-        USE_SERVICE_ACCOUNTS = True
-    else:
-        USE_SERVICE_ACCOUNTS = False
+    USE_SERVICE_ACCOUNTS = USE_SERVICE_ACCOUNTS.lower() == 'true'
 except KeyError:
     USE_SERVICE_ACCOUNTS = False
 
